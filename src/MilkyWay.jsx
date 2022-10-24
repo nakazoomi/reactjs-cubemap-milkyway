@@ -1,4 +1,6 @@
-import React, { useRef } from "react";
+import React, { useRef, useState, useEffect } from "react";
+import DotLoader from "react-spinners/DotLoader";
+
 import { Canvas, extend, useThree, useFrame } from "react-three-fiber";
 import { CubeTextureLoader } from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
@@ -24,7 +26,7 @@ const CameraControls = () => {
       ref={controls}
       args={[camera, domElement]}
       autoRotate={true}
-      autoRotateSpeed={0.05}
+      autoRotateSpeed={0.2}
       enableZoom={true}
       enableDamping={true}
       dampingFactor={0.01}
@@ -38,12 +40,12 @@ function SkyBox() {
   const loader = new CubeTextureLoader();
   // The CubeTextureLoader load method takes an array of urls representing all 6 sides of the cube.
   const texture = loader.load([
-    "./images/milkyway/ultra/px.webp",
-    "./images/milkyway/ultra/nx.webp",
-    "./images/milkyway/ultra/py.webp",
-    "./images/milkyway/ultra/ny.webp",
-    "./images/milkyway/ultra/pz.webp",
-    "./images/milkyway/ultra/nz.webp",
+    "./images/milkyway/mega/px.webp",
+    "./images/milkyway/mega/nx.webp",
+    "./images/milkyway/mega/py.webp",
+    "./images/milkyway/mega/ny.webp",
+    "./images/milkyway/mega/pz.webp",
+    "./images/milkyway/mega/nz.webp",
   ]);
 
   // Set the scene background property to the resulting texture.
@@ -53,12 +55,32 @@ function SkyBox() {
 
 // EXPORT MILKY WAY
 export default function MilkyWay() {
+  const [loading, setLoading] = useState(false);
+  useEffect(() => {
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+    }, 8000);
+  }, []);
+
   return (
     <div className="canvas__wrapper">
-      <Canvas className="canvas">
-        <CameraControls />
-        <SkyBox />
-      </Canvas>
+      {loading ? (
+        <DotLoader
+          color={"#fff"}
+          loading={loading}
+          // cssOverride={override}
+          size={100}
+          aria-label="Loading Spinner"
+          data-testid="loader"
+          className="loading-spinner"
+        />
+      ) : (
+        <Canvas className="canvas">
+          <CameraControls />
+          <SkyBox />
+        </Canvas>
+      )}
     </div>
   );
 }

@@ -1,3 +1,3 @@
-# CubeMap from the MilkyWay
+# Three.js Cube Map - Milky Way
 
-This React.js Application shows the original records from the milky way in high resolution.
+This is a three.js cube map of the Milky Way with the originals records provided by NASA
